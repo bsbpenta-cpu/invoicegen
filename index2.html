@@ -1,0 +1,763 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; -webkit-text-stroke: #000000; min-height: 15.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="utf-8" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;invoiceto.app – Free Invoice Preview&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>:root{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--bg:#f9fafb; --card-bg:#fff; --border:#e5e7eb; --border-strong:#d1d5db;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--text-main:#111827; --text-muted:#6b7280; --primary:#2563eb; --primary-soft:#dbeafe;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--radius-lg:12px; --radius-md:8px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>*{box-sizing:border-box}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text-main)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.page{min-height:100vh;display:flex;flex-direction:column}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Header */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.header{height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.logo{font-weight:700;font-size:18px;letter-spacing:-0.03em}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.logo span.highlight{color:var(--primary);font-weight:700}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.header-nav{display:flex;align-items:center;gap:16px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.nav-link{font-size:14px;color:var(--text-muted);text-decoration:none}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.nav-link:hover{color:var(--text-main)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn-outline{padding:6px 12px;font-size:14px;border-radius:999px;border:1px solid var(--border-strong);background:#fff;cursor:pointer;color:var(--text-main)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn-primary{padding:6px 14px;font-size:14px;border-radius:999px;border:none;background:var(--primary);color:#fff;cursor:pointer}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn-primary:disabled{opacity:0.5;cursor:default}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn-primary:hover:not(:disabled){background:#1d4ed8}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Layout */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.main{flex:1;padding:24px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.hero-left-heading{font-size:28px;font-weight:700;margin-bottom:8px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.hero-left-subheading{font-size:14px;color:var(--text-muted);margin-bottom:16px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--primary-soft);color:#1d4ed8;font-size:12px;margin-bottom:12px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.pill-dot{width:6px;height:6px;border-radius:999px;background:#22c55e}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel{background:var(--card-bg);border-radius:var(--radius-lg);padding:18px 18px 16px;box-shadow:0 12px 30px rgba(15,23,42,0.06);border:1px solid var(--border)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel-title{font-size:16px;font-weight:600}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel-subtitle{font-size:12px;color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.badge{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:999px;font-size:11px;border:1px solid var(--border-strong);color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.badge-primary{border-color:#bfdbfe;background:var(--primary-soft);color:#1d4ed8;font-weight:500}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Form */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.form-row-full{grid-column:1/-1}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.field{display:flex;flex-direction:column;gap:4px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.field-label{font-size:12px;color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.field-input,.field-select,.field-textarea{font-size:13px;padding:7px 9px;border-radius:var(--radius-md);border:1px solid var(--border-strong);background:#fff;outline:none;transition:border-color .15s,box-shadow .15s}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary-soft)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.field-hint{font-size:11px;color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.field-textarea{resize:vertical;min-height:60px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.section-title{font-size:13px;font-weight:600;margin:12px 0 8px;display:flex;align-items:center;justify-content:space-between}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.section-title .index{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:999px;border:1px solid var(--border-strong);font-size:11px;margin-right:6px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.section-title-sub{font-size:11px;color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.meta-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:8px}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Items table */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-table{width:100%;border-collapse:collapse;margin-top:6px;margin-bottom:4px;font-size:12px;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border-strong)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-table thead{background:#f3f4f6}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-table th,.items-table td{padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-table th:last-child,.items-table td:last-child{text-align:right;white-space:nowrap}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-table th:nth-child(1),.items-table td:nth-child(1){width:28px;text-align:center}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-table th:nth-child(3),.items-table th:nth-child(4),.items-table th:nth-child(5),.items-table td:nth-child(3),.items-table td:nth-child(4),.items-table td:nth-child(5){white-space:nowrap}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-input{width:100%;border:none;outline:none;background:transparent;font-size:12px;padding:2px 0}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-input::placeholder{color:#9ca3af}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-input[type="number"]{text-align:right}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.items-footer{display:flex;justify-content:space-between;align-items:center;margin-top:6px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.link-button{border:none;background:transparent;color:var(--primary);font-size:12px;padding:0;cursor:pointer}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.link-button:disabled{opacity:0.4;cursor:default}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.summary-grid{display:grid;grid-template-columns:2fr 1.2fr;gap:12px;margin-top:10px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.summary-box{border-radius:var(--radius-md);border:1px dashed var(--border-strong);padding:8px 10px;font-size:12px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.summary-row{display:flex;justify-content:space-between;margin-bottom:4px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.summary-label{color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.summary-value{font-weight:500}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.notes-field{font-size:12px;width:100%;border-radius:var(--radius-md);border:1px solid var(--border-strong);padding:7px 9px;resize:vertical;min-height:52px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.generate-footer{display:flex;justify-content:flex-end;margin-top:12px;gap:8px;align-items:center;flex-wrap:wrap}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.hint-small{font-size:11px;color:var(--text-muted)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Preview pane */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-panel{background:transparent;padding:0;box-shadow:none;border:none;display:flex;flex-direction:column;gap:8px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-header{display:flex;justify-content:space-between;align-items:center}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-header-title{font-size:14px;font-weight:600}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-header-sub{font-size:11px;color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-canvas-wrapper{border-radius:var(--radius-lg);border:1px solid var(--border-strong);background:#e5e7eb;padding:10px;display:flex;justify-content:center;align-items:center}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-page{width:100%;max-width:816px;aspect-ratio:210/297;background:#fff;border-radius:4px;box-shadow:0 8px 18px rgba(15,23,42,0.15);padding:18px 22px;overflow:hidden;display:flex;flex-direction:column;font-size:11px;border:1px solid #d1d5db}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-page-title{font-size:18px;font-weight:700;letter-spacing:0.06em}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-page-meta{text-align:right;font-size:10px;color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-blocks{display:flex;gap:12px;margin-bottom:10px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-block{flex:1}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-block-label{font-weight:600;margin-bottom:3px;font-size:10px;text-transform:uppercase;letter-spacing:0.06em}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-block-line{font-size:11px;line-height:1.4}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-items-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:10px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-items-table th,.preview-items-table td{border-bottom:1px solid #e5e7eb;padding:4px 3px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-items-table th{background:#f9fafb;font-weight:600;text-align:left}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-items-table th:nth-child(1),.preview-items-table td:nth-child(1){width:16px;text-align:center}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-items-table th:nth-child(3),.preview-items-table th:nth-child(4),.preview-items-table th:nth-child(5),.preview-items-table td:nth-child(3),.preview-items-table td:nth-child(4),.preview-items-table td:nth-child(5){text-align:right;white-space:nowrap}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-summary{margin-top:10px;margin-left:auto;font-size:10px;width:55%}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-summary-row{display:flex;justify-content:space-between;margin-bottom:3px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-summary-row.total{font-weight:600;border-top:1px solid #e5e7eb;padding-top:4px;margin-top:3px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-notes{margin-top:10px;font-size:10px;color:var(--text-muted)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.preview-country-tag{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 6px;background:#f3f4f6;font-size:9px;margin-top:3px}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Print styling: ensure only the invoice page prints, no extraneous UI text */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@page{size:A4;margin:0}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media print{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>html,body{width:210mm;height:297mm;margin:0;padding:0;background:#fff}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.page{min-height:0}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.header, .main &gt; section:first-child{display:none !important} /* hide header and left form */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.preview-header{display:none} /* remove preview header (title &amp; helper text) from print */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.main{display:block;padding:0;margin:0;max-width:none}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.preview-panel{display:block;padding:0;margin:0}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.preview-canvas-wrapper{border:none;padding:0;margin:0;display:block}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.preview-page{box-shadow:none !important;border-radius:0;border:0.5pt solid #111827;width:210mm;height:297mm;padding:15mm 18mm;margin:0}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Responsive */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media (max-width:960px){.main{grid-template-columns:minmax(0,1fr)}}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media (max-width:640px){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.header{padding:0 16px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.header-nav{display:none}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.main{padding:16px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.hero-left-heading{font-size:22px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.panel{padding:14px 12px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.preview-page{padding:14px 14px}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="page"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;header class="header"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="logo"&gt;&lt;span&gt;invoice&lt;/span&gt;&lt;span class="highlight"&gt;to.app&lt;/span&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;nav class="header-nav"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a href="hiwig.html" class="nav-link"&gt;How it works&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- Removed Pricing / Sign in / Pro buttons as requested --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/nav&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;main class="main"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;!-- LEFT: Form --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;section&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="pill"&gt;&lt;span class="pill-dot"&gt;&lt;/span&gt; Free invoice preview · No signup&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h1 class="hero-left-heading"&gt;Create clean internationally compliant invoices in seconds&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="hero-left-subheading"&gt;Fill in your company and client details, add up to 10 lines of work and instantly preview your invoice in A4 format. All amounts are shown in the currency you choose.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;header class="panel-header"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="panel-title"&gt;Free invoice generator&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="panel-subtitle"&gt;Your data stays in this browser session only.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="badge badge-primary"&gt;Basic international template&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;!-- Supplier country, currency, tax label, rate --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="form-grid form-row-full" style="margin-bottom:6px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="supplierCountry"&gt;Supplier country&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="supplierCountry" class="field-input" placeholder="e.g. Czech Republic" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="field-hint"&gt;Used for European tax logic and invoice labeling.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="clientCountry"&gt;Client country&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="clientCountry" class="field-input" placeholder="e.g. Germany" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="field-hint"&gt;Used to detect intra-European zero tax cases.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="currency"&gt;Currency&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="currency" class="field-input" value="EUR" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="field-hint"&gt;Currency code shown on invoice (e.g. EUR, USD, GBP).&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="taxLabel"&gt;Tax label&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="taxLabel" class="field-input" value="VAT" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="field-hint"&gt;Name of the tax: VAT, TAX, DPH, IVA, GST, etc.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="taxRate"&gt;Tax rate (%)&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="taxRate" class="field-input" type="number" min="0" step="0.01" placeholder="e.g. 21" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="field-hint"&gt;Used when tax applies and is not zero-rated.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;!-- Supplier --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="section-title"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div style="display:flex;align-items:center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span class="index"&gt;1&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span&gt;Supplier (your company)&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="form-grid"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field form-row-full"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="supplierName"&gt;Company name&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="supplierName" class="field-input" placeholder="Your company s.r.o." /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field form-row-full"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="supplierAddress"&gt;Address&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="supplierAddress" class="field-input" placeholder="Street, ZIP, City, Country" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="supplierTax"&gt;Tax number (supplier)&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="supplierTax" class="field-input" placeholder="e.g. CZ12345678" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="supplierIban"&gt;IBAN&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="supplierIban" class="field-input" placeholder="e.g. CZ65 0800 0000 0000 1234 5678" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="supplierBank"&gt;Bank name&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="supplierBank" class="field-input" placeholder="e.g. Česká spořitelna, a.s." /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="supplierBic"&gt;BIC / SWIFT&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="supplierBic" class="field-input" placeholder="e.g. GIBACZPX" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;!-- Client --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="section-title"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div style="display:flex;align-items:center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span class="index"&gt;2&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span&gt;Client (payer)&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="form-grid"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field form-row-full"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="clientName"&gt;Client name&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="clientName" class="field-input" placeholder="Client GmbH" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field form-row-full"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="clientAddress"&gt;Client address&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="clientAddress" class="field-input" placeholder="Street, ZIP, City, Country" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="clientTax"&gt;Tax number (client)&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="clientTax" class="field-input" placeholder="Leave empty if not registered" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;!-- Invoice meta --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="section-title"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div style="display:flex;align-items:center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span class="index"&gt;3&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span&gt;Invoice details&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="meta-grid"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="invoiceNumber"&gt;Invoice number&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="invoiceNumber" class="field-input" placeholder="2025-001" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="issueDate"&gt;Issue date&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="issueDate" class="field-input" type="date" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="field"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;label class="field-label" for="dueDate"&gt;Due date&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;input id="dueDate" class="field-input" type="date" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;!-- Items --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="section-title"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div style="display:flex;align-items:center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span class="index"&gt;4&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span&gt;Invoice items&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="section-title-sub"&gt;Up to 10 lines of work&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;table class="items-table"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Qty&lt;/th&gt;&lt;th&gt;Unit price&lt;/th&gt;&lt;th&gt;Line total&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tbody id="itemsBody"&gt;&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="items-footer"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button id="addItemBtn" class="link-button" type="button"&gt;+ Add line&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="field-hint"&gt;You can add up to 10 lines.&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;!-- Summary &amp; notes --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="summary-grid"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="field-label" style="margin-bottom:4px;"&gt;Notes (optional)&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;textarea id="notes" class="notes-field" placeholder="Payment within 14 days by bank transfer. Thank you for your business."&gt;&lt;/textarea&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="summary-box"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="summary-row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="summary-label"&gt;Net amount (&lt;span id="summaryCurrency1"&gt;EUR&lt;/span&gt;)&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="summary-value" id="netAmount"&gt;0.00&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="summary-row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="summary-label"&gt;&lt;span id="summaryTaxLabel"&gt;Tax&lt;/span&gt; rate&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="summary-value" id="taxRateText"&gt;not applied&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="summary-row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="summary-label"&gt;&lt;span id="summaryTaxLabel2"&gt;Tax&lt;/span&gt; amount (&lt;span id="summaryCurrency2"&gt;EUR&lt;/span&gt;)&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="summary-value" id="taxAmount"&gt;0.00&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="summary-row total"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="summary-label"&gt;Total due (&lt;span id="summaryCurrency3"&gt;EUR&lt;/span&gt;)&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span class="summary-value" id="totalAmount"&gt;0.00&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="generate-footer"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="hint-small"&gt;Preview updates automatically as you edit. Export to PDF uses your browser print dialog.&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button id="printBtn" class="btn-outline" type="button"&gt;Export to PDF&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button id="generateBtn" class="btn-primary" type="button"&gt;Generate preview&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;!-- RIGHT: Preview --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;section class="preview-panel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="preview-header"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="preview-header-title"&gt;Invoice preview (A4)&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="preview-header-sub"&gt;Updated live as you edit.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="preview-canvas-wrapper"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="preview-page" role="article" aria-label="Invoice preview"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="preview-page-header"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-page-title"&gt;INVOICE&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-country-tag"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;span id="previewCountryCode"&gt;INT&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>&lt;span&gt;· &lt;span id="previewCurrencyTag"&gt;EUR&lt;/span&gt;&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="preview-page-meta" id="previewMeta"&gt;Invoice No: —&lt;br/&gt;Issue date: —&lt;br/&gt;Due date: —&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="preview-blocks"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="preview-block"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-label"&gt;SUPPLIER&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewSupplierName"&gt;Your company s.r.o.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewSupplierAddress"&gt;Street, City&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewSupplierBank"&gt;Bank: —&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewSupplierIban"&gt;IBAN: —&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewSupplierBic"&gt;BIC: —&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewSupplierTax"&gt;Tax: —&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="preview-block"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-label"&gt;BILL TO&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewClientName"&gt;Client GmbH&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewClientAddress"&gt;Street, City&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="preview-block-line" id="previewClientTax"&gt;Tax: —&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;table class="preview-items-table"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Qty&lt;/th&gt;&lt;th&gt;Unit price&lt;/th&gt;&lt;th&gt;Total&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;tbody id="previewItemsBody"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;tr&gt;&lt;td colspan="5" style="font-style:italic;color:#9ca3af;text-align:center"&gt;No items yet. Add lines on the left.&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/table&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="preview-summary"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="preview-summary-row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span&gt;Net amount (&lt;span id="previewCurrency1"&gt;EUR&lt;/span&gt;)&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span id="previewNetAmount"&gt;0.00&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="preview-summary-row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span id="previewTaxLineLabel"&gt;Tax&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span id="previewTaxAmount"&gt;not applied&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;div class="preview-summary-row total"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span&gt;Total due (&lt;span id="previewCurrency2"&gt;EUR&lt;/span&gt;)&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;span id="previewTotalAmount"&gt;0.00&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="preview-notes"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;strong&gt;Notes / Payment terms&lt;/strong&gt;&lt;br/&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>&lt;span id="previewNotes"&gt;Payment within 14 days by bank transfer. Thank you for your business.&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>(function(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// ---------- Config &amp; DOM ----------</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const MAX_ITEMS = 10;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const itemsBody = document.getElementById('itemsBody');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const addItemBtn = document.getElementById('addItemBtn');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const generateBtn = document.getElementById('generateBtn');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const printBtn = document.getElementById('printBtn');</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const EU_COUNTRIES_ISO = ["AT","BE","BG","HR","CY","CZ","DE","DK","EE","ES","FI","FR","GR","HU","IE","IT","LT","LU","LV","MT","NL","PL","PT","RO","SE","SI","SK"];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// Normalizer map (common names -&gt; ISO). Extended and fixed typos.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const COUNTRY_MAP = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>"austria":"AT","österreich":"AT","osterreich":"AT","belgium":"BE","belgie":"BE","belgië":"BE",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>"bulgaria":"BG","croatia":"HR","hrvatska":"HR","cyprus":"CY","czech republic":"CZ","czechia":"CZ","česká republika":"CZ",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>"czech republic (cz)":"CZ","denmark":"DK","estonia":"EE","finland":"FI","france":"FR",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>"germany":"DE","deutschland":"DE","greece":"GR","hungary":"HU","magyarország":"HU","ireland":"IE",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>"italy":"IT","italia":"IT","latvia":"LV","lithuania":"LT","lithuania (lt)":"LT",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>"luxembourg":"LU","luxemburg":"LU","malta":"MT","netherlands":"NL","holland":"NL",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>"poland":"PL","polska":"PL","portugal":"PT","romania":"RO","slovakia":"SK","slovak republic":"SK","slovensko":"SK",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>"slovenia":"SI","slovenija":"SI","spain":"ES","españa":"ES","spain (es)":"ES","sweden":"SE","sverige":"SE"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// ---------- Helpers ----------</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function parseNumber(value){ const n = parseFloat(String(value||'').replace(',','.')); return Number.isFinite(n)?n:0; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function formatNumber(n){ return Number(n||0).toFixed(2); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function escapeHtml(s){ return String(s||'').replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;').replace(/"/g,'&amp;quot;').replace(/'/g,'&amp;#039;'); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function normalizeCountryToIso(countryRaw){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(!countryRaw) return null;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let s = String(countryRaw).trim().toLowerCase();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(!s) return null;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// If looks like 2-letter ISO</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(/^[a-z]{2}$/i.test(s)) return s.toUpperCase();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// If user typed country code like "CZ" with length 2.</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(/^[a-z]{3}$/i.test(s)) return s.toUpperCase(); // accept 3-letter too (not used here but harmless)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// remove common suffixes like "(EU)" or region parts</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>s = s.replace(/\(.*?\)/g,'').trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// try direct map lookup</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(COUNTRY_MAP[s]) return COUNTRY_MAP[s];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// try splitting by comma or dash and match first token</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const main = s.split(/[,;-]/)[0].trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(COUNTRY_MAP[main]) return COUNTRY_MAP[main];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// try simple token comparisons (e.g., "czech" -&gt; cz)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(const key in COUNTRY_MAP){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>if(key.includes(main) || main.includes(key)) return COUNTRY_MAP[key];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return null;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function isEuropeanCountry(countryRaw){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const iso = normalizeCountryToIso(countryRaw);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return iso ? EU_COUNTRIES_ISO.includes(iso) : false;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// ---------- Items UI ----------</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function createItemRow(index){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const tr = document.createElement('tr');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>tr.innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;td&gt;${index}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;td&gt;&lt;input class="items-input item-desc" placeholder="Description" /&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;td&gt;&lt;input class="items-input item-qty" type="number" min="0" step="0.01" placeholder="0" /&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;td&gt;&lt;input class="items-input item-price" type="number" min="0" step="0.01" placeholder="0.00" /&gt;&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;td class="item-total-cell"&gt;0.00&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return tr;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function initItemsTable(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>itemsBody.innerHTML = '';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// start with 3 lines</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=1;i&lt;=3;i++) itemsBody.appendChild(createItemRow(i));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ensureAddButtonState();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>hookItemInputs();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function ensureAddButtonState(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>addItemBtn.disabled = itemsBody.querySelectorAll('tr').length &gt;= MAX_ITEMS;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function addItemRow(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const rows = itemsBody.querySelectorAll('tr');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(rows.length &gt;= MAX_ITEMS) return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>itemsBody.appendChild(createItemRow(rows.length+1));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ensureAddButtonState();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>hookItemInputs();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>recalcItemsAndTotals();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// ---------- Calculations &amp; Preview ----------</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function recalcItemsAndTotals(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const rows = Array.from(itemsBody.querySelectorAll('tr'));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let net = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>rows.forEach((row, i) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const qty = parseNumber(row.querySelector('.item-qty').value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const price = parseNumber(row.querySelector('.item-price').value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const lineTotal = qty * price;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>row.querySelector('.item-total-cell').textContent = formatNumber(lineTotal);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>net += lineTotal;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>row.firstElementChild.textContent = i+1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Read tax &amp; country fields</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supplierCountry = document.getElementById('supplierCountry').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const clientCountry <span class="Apple-converted-space">  </span>= document.getElementById('clientCountry').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supplierTax <span class="Apple-converted-space">    </span>= document.getElementById('supplierTax').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const clientTax <span class="Apple-converted-space">      </span>= document.getElementById('clientTax').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const taxLabel<span class="Apple-converted-space">        </span>= document.getElementById('taxLabel').value.trim() || 'Tax';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const baseRate<span class="Apple-converted-space">        </span>= parseNumber(document.getElementById('taxRate').value);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Explicit flags as requested</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const isSupplierEU = isEuropeanCountry(supplierCountry);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const isClientEU <span class="Apple-converted-space">  </span>= isEuropeanCountry(clientCountry);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const hasSupplierTax = supplierTax !== '';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const hasClientTax <span class="Apple-converted-space">  </span>= clientTax !== '';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supIso = normalizeCountryToIso(supplierCountry);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const cliIso = normalizeCountryToIso(clientCountry);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const sameCountry = supIso &amp;&amp; cliIso &amp;&amp; supIso === cliIso;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Apply rules exactly as specified:</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// 1) If supplier has NO tax number =&gt; tax NOT applied</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// 2) If supplier has tax number, client has NO tax number =&gt; tax APPLIES at baseRate</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// 3) If BOTH in EU and BOTH have tax numbers:</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>//<span class="Apple-converted-space">      </span>- if countries DIFFERENT -&gt; intra-EU zero rate (0%)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>//<span class="Apple-converted-space">      </span>- if countries SAME -&gt; tax APPLIES (baseRate)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// 4) In all other cases, if supplier has tax number and not (3 zero rate), tax APPLIES</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let effectiveRate = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let taxApplies = false;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let zeroRated = false;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(!hasSupplierTax){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>taxApplies = false;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>effectiveRate = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>// supplier has tax number</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>if(isSupplierEU &amp;&amp; isClientEU &amp;&amp; hasClientTax){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// both EU and both have tax numbers</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if(!sameCountry){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>zeroRated = true;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>taxApplies = false; // zero-rate (treated as not applying the tax amount)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>effectiveRate = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>// same country (both EU) and both have tax numbers -&gt; tax applies</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>taxApplies = true;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">              </span>effectiveRate = baseRate;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// other cases where supplier has tax number:</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// if client has no tax number -&gt; tax applies</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// if client non-EU but supplier has tax -&gt; apply tax (per rule 4)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>taxApplies = true;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>effectiveRate = baseRate;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const taxAmount = taxApplies ? (net * effectiveRate / 100) : 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const total = net + taxAmount;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Update left summary numbers</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('netAmount').textContent = formatNumber(net);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('taxAmount').textContent = formatNumber(taxAmount);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('totalAmount').textContent = formatNumber(total);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Update labels</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('summaryTaxLabel').textContent<span class="Apple-converted-space">  </span>= taxLabel;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('summaryTaxLabel2').textContent = taxLabel;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// taxRateText must be exactly one of: "not applied", "TaxLabel 0 % (intra-EU zero rate)", "TaxLabel X %"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const taxRateTextEl = document.getElementById('taxRateText');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(!hasSupplierTax){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>taxRateTextEl.textContent = 'not applied';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} else if(zeroRated){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>taxRateTextEl.textContent = `${taxLabel} 0 % (intra-EU zero rate)`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>taxRateTextEl.textContent = `${taxLabel} ${formatNumber(effectiveRate)} %`.replace('.00','');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Preview values</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewNetAmount').textContent = formatNumber(net);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewTotalAmount').textContent = formatNumber(total);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// previewTaxAmount: follow same textual contract but keep tax amount numeric separate in left summary (already done)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const previewTaxEl = document.getElementById('previewTaxAmount');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(!hasSupplierTax){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>previewTaxEl.textContent = 'not applied';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} else if(zeroRated){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>previewTaxEl.textContent = `${taxLabel} 0 % (intra-EU zero rate)`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>previewTaxEl.textContent = `${formatNumber(taxAmount)} (${formatNumber(effectiveRate).replace('.00','')} %)`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// set preview tax label title</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewTaxLineLabel').textContent = taxLabel;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updatePreviewItems();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updatePreviewSupplierClientTax(taxLabel, supplierTax, clientTax);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function updatePreviewSupplierClientTax(taxLabel, supplierTax, clientTax){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewSupplierTax').textContent = `${taxLabel}: ${supplierTax || '—'}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewClientTax').textContent <span class="Apple-converted-space">  </span>= `${taxLabel}: ${clientTax || '—'}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function updatePreviewMeta(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const invoiceNumber = document.getElementById('invoiceNumber').value.trim() || '—';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const issueDate = document.getElementById('issueDate').value.trim() || '—';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const dueDate = document.getElementById('dueDate').value.trim() || '—';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewMeta').innerHTML =</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>'Invoice No: ' + escapeHtml(invoiceNumber) + '&lt;br/&gt;Issue date: ' + escapeHtml(issueDate) + '&lt;br/&gt;Due date: ' + escapeHtml(dueDate);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function updatePreviewSupplierClient(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supplierName = document.getElementById('supplierName').value.trim() || 'Your company s.r.o.';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supplierAddress = document.getElementById('supplierAddress').value.trim() || 'Street, City';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supplierBank = document.getElementById('supplierBank').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supplierIban = document.getElementById('supplierIban').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supplierBic = document.getElementById('supplierBic').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const supplierTax = document.getElementById('supplierTax').value.trim();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const clientName = document.getElementById('clientName').value.trim() || 'Client GmbH';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const clientAddress = document.getElementById('clientAddress').value.trim() || 'Street, City';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const clientTax = document.getElementById('clientTax').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const taxLabel = document.getElementById('taxLabel').value.trim() || 'Tax';</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewSupplierName').textContent = supplierName;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewSupplierAddress').textContent = supplierAddress;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewSupplierBank').textContent = 'Bank: ' + (supplierBank || '—');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewSupplierIban').textContent = 'IBAN: ' + (supplierIban || '—');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewSupplierBic').textContent = 'BIC: ' + (supplierBic || '—');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewSupplierTax').textContent = `${taxLabel}: ${supplierTax || '—'}`;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewClientName').textContent = clientName;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewClientAddress').textContent = clientAddress;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewClientTax').textContent = `${taxLabel}: ${clientTax || '—'}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function updatePreviewCountryAndCurrency(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const country = document.getElementById('supplierCountry').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const iso = normalizeCountryToIso(country);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewCountryCode').textContent = iso || 'INT';</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const rawCur = document.getElementById('currency').value.trim() || 'EUR';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const cur = rawCur.toUpperCase();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('summaryCurrency1').textContent = cur;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('summaryCurrency2').textContent = cur;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('summaryCurrency3').textContent = cur;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewCurrencyTag').textContent = cur;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewCurrency1').textContent = cur;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewCurrency2').textContent = cur;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function updatePreviewItems(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const previewBody = document.getElementById('previewItemsBody');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const rows = Array.from(itemsBody.querySelectorAll('tr'));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>previewBody.innerHTML = '';</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const visible = rows.map((row, i) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const desc = row.querySelector('.item-desc').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const qty = row.querySelector('.item-qty').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const price = row.querySelector('.item-price').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const total = row.querySelector('.item-total-cell').textContent.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>if(!desc &amp;&amp; !qty &amp;&amp; !price &amp;&amp; total === '0.00') return null;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>return { idx: i+1, desc, qty, price, total };</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}).filter(Boolean);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if(visible.length === 0){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const tr = document.createElement('tr');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>tr.innerHTML = '&lt;td colspan="5" style="font-style: italic; color:#9ca3af; text-align:center;"&gt;No items yet. Add lines on the left.&lt;/td&gt;';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>previewBody.appendChild(tr);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>visible.forEach(item =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const tr = document.createElement('tr');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>tr.innerHTML = `&lt;td&gt;${item.idx}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                          </span>&lt;td&gt;${escapeHtml(item.desc || '')}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                          </span>&lt;td style="text-align:right;"&gt;${item.qty || ''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                          </span>&lt;td style="text-align:right;"&gt;${item.price || ''}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                          </span>&lt;td style="text-align:right;"&gt;${item.total || '0.00'}&lt;/td&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>previewBody.appendChild(tr);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function updatePreviewNotes(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const notes = document.getElementById('notes').value.trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('previewNotes').textContent = notes || 'Payment within 14 days by bank transfer. Thank you for your business.';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function updateAllPreview(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updatePreviewMeta();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updatePreviewSupplierClient();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updatePreviewCountryAndCurrency();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>recalcItemsAndTotals();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updatePreviewNotes();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// ---------- Wiring &amp; init ----------</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function hookInputs(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ids = [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>'supplierName','supplierAddress','supplierBank','supplierIban','supplierBic',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>'supplierTax','supplierCountry','clientName','clientAddress','clientCountry','clientTax',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>'invoiceNumber','issueDate','dueDate','notes','currency','taxLabel','taxRate'</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ids.forEach(id =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const el = document.getElementById(id);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>if(!el) return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>el.addEventListener('input', updateAllPreview);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function hookItemInputs(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Array.from(itemsBody.querySelectorAll('tr')).forEach(row =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const inputs = Array.from(row.querySelectorAll('.items-input'));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>inputs.forEach(input =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// ensure no duplicate handlers</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>input.removeEventListener('input', recalcItemsAndTotals);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>input.addEventListener('input', recalcItemsAndTotals);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>addItemBtn.addEventListener('click', () =&gt; { addItemRow(); });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>generateBtn.addEventListener('click', () =&gt; { updateAllPreview(); });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>printBtn.addEventListener('click', () =&gt; { updateAllPreview(); window.print(); });</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>function autoFillDates(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const issueEl = document.getElementById('issueDate');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const dueEl = document.getElementById('dueDate');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const today = new Date();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const yyyy = today.getFullYear();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const mm = String(today.getMonth()+1).padStart(2,'0');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const dd = String(today.getDate()).padStart(2,'0');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>issueEl.value = `${yyyy}-${mm}-${dd}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const due = new Date(today);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>due.setDate(due.getDate()+14);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>dueEl.value = `${due.getFullYear()}-${String(due.getMonth()+1).padStart(2,'0')}-${String(due.getDate()).padStart(2,'0')}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// Init</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>initItemsTable();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>autoFillDates();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>hookInputs();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>updateAllPreview();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// Expose some functions for debugging if needed (no global pollution)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>window.__invoiceto = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>normalizeCountryToIso,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>isEuropeanCountry,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>recalcItemsAndTotals,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>updateAllPreview</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>})();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
